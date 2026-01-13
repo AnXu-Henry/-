@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吕悦智齿纪念馆</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            color: #e8e8e8;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .title {
+            font-size: 60px;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.6); }
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #b8b8b8;
+            font-style: italic;
+        }
+
+        .tombstone {
+            background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+            border-radius: 20px 20px 0 0;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .tombstone::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 40px;
+            background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .tooth-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .tombstone-text {
+            font-size: 28px;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .tombstone-dates {
+            font-size: 20px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .epitaph {
+            font-size: 18px;
+            color: #b8b8b8;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 32px;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .life-story {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #d0d0d0;
+        }
+
+        .life-story p {
+            margin-bottom: 15px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #ffd700, transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .timeline-date {
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            color: #b8b8b8;
+        }
+
+        .tribute-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .tribute-button {
+            padding: 20px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tribute-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-flower {
+            background: linear-gradient(45deg, #ff6b6b, #ff9ff3);
+            color: white;
+        }
+
+        .btn-candle {
+            background: linear-gradient(45deg, #feca57, #ff9f43);
+            color: white;
+        }
+
+        .btn-message {
+            background: linear-gradient(45deg, #48dbfb, #0abde3);
+            color: white;
+        }
+
+        .flower-container, .candle-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            min-height: 100px;
+        }
+
+        .flower, .candle {
+            font-size: 40px;
+            animation: appear 0.5s ease-out;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .flower:hover, .candle:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message-text {
+            color: #d0d0d0;
+            margin-bottom: 5px;
+        }
+
+        .message-time {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .last-words {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .last-words-text {
+            font-size: 24px;
+            color: #ffd700;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .soul {
+            position: fixed;
+            font-size: 60px;
+            animation: soulFloat 10s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes soulFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .counter {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #b8b8b8;
+        }
+
+        .counter-number {
+            font-size: 36px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e8e8e8;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn-submit {
+            background: linear-gradient(45deg, #ffd700, #ff9f43);
+            color: #1a1a1a;
+            font-weight: bold;
+        }
+
+        .modal-btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8e8e8;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="title">🦷 吕悦智齿纪念馆 🦷</div>
+            <div class="subtitle">深切缅怀一颗勇敢的智齿</div>
+        </div>
+
+        <div class="tombstone">
+            <div class="tooth-icon">🦷</div>
+            <div class="tombstone-text">安息吧，勇敢的智齿</div>
+            <div class="tombstone-dates">2024年 - 2026年1月12日</div>
+            <div class="epitaph">
+                "你虽然离开了，但你的精神永远留在吕悦的口中。<br>
+                你用最后的疼痛，教会了吕悦什么是勇气。<br>
+                愿你在天堂没有牙医，只有糖果。"
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">📜 智齿生平</div>
+            <div class="life-story">
+                <p>这颗智齿，于2024年在吕悦的口腔中悄悄萌生。它本想安安静静地做一个好牙齿，但命运却给它安排了不平凡的使命。</p>
+                <p>在它短暂的一生中，它经历了无数次的疼痛折磨，见证了吕悦的喜怒哀乐。它陪伴吕悦度过了无数个夜晚，用疼痛提醒着它的存在。</p>
+                <p>2026年1月12日，这颗勇敢的智齿终于完成了它的使命，在牙医的帮助下光荣退役。它用最后的疼痛，为吕悦换来了更健康的口腔环境。</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">⏰ 智齿大事记</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2024年某月</div>
+                    <div class="timeline-content">智齿悄然萌生，开始它的使命</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2024年某月</div>
+                    <div class="timeline-content">第一次疼痛，智齿宣告自己的存在</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2025年某月</div>
+                    <div class="timeline-content">多次疼痛发作，智齿与吕悦展开拉锯战</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026年1月12日</div>
+                    <div class="timeline-content">智齿光荣退役，结束它短暂而伟大的一生</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">💬 智齿遗言</div>
+            <div class="last-words">
+                <div class="last-words-text">
+                    "吕悦，对不起，我让你疼了这么久。<br>
+                    但请相信，我不是故意的。<br>
+                    我只是想长得更高一点，<br>
+                    想让你注意到我的存在。<br>
+                    现在我要走了，<br>
+                    希望你以后能好好刷牙，<br>
+                    照顾好我的兄弟姐妹们。<br>
+                    再见了，吕悦！"
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🙏 献花祭奠</div>
+            <div class="tribute-section">
+                <button class="tribute-button btn-flower" onclick="addFlower()">🌸 献花</button>
+                <button class="tribute-button btn-candle" onclick="addCandle()">🕯️ 点蜡烛</button>
+                <button class="tribute-button btn-message" onclick="openMessageModal()">📝 写悼词</button>
+            </div>
+            <div class="counter">
+                已献花 <span class="counter-number" id="flowerCount">0</span> 朵，
+                已点蜡烛 <span class="counter-number" id="candleCount">0</span> 支
+            </div>
+            <div class="flower-container" id="flowerContainer"></div>
+            <div class="candle-container" id="candleContainer"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">📝 悼词墙</div>
+            <div class="message-box" id="messageBox">
+                <div class="message-item">
+                    <div class="message-text">智齿，一路走好！你的疼痛我们永远铭记！</div>
+                    <div class="message-time">2026-01-13 00:00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 吕悦智齿纪念馆 | 永远怀念那颗勇敢的智齿</p>
+            <p>愿天堂没有牙医，只有糖果 🍬</p>
+        </div>
+    </div>
+
+    <div class="modal" id="messageModal">
+        <div class="modal-content">
+            <div class="modal-title">📝 写悼词</div>
+            <textarea class="modal-input" id="messageInput" rows="4" placeholder="写下你对智齿的思念..."></textarea>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-submit" onclick="submitMessage()">提交</button>
+                <button class="modal-btn modal-btn-cancel" onclick="closeMessageModal()">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let flowerCount = 0;
+        let candleCount = 0;
+
+        const flowers = ['🌸', '🌺', '🌹', '🌻', '🌼', '💐', '🏵️', '🌷'];
+        const candles = ['🕯️', '🔥', '💡'];
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function addFlower() {
+            const container = document.getElementById('flowerContainer');
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+            container.appendChild(flower);
+            flowerCount++;
+            document.getElementById('flowerCount').textContent = flowerCount;
+        }
+
+        function addCandle() {
+            const container = document.getElementById('candleContainer');
+            const candle = document.createElement('div');
+            candle.className = 'candle';
+            candle.textContent = candles[Math.floor(Math.random() * candles.length)];
+            container.appendChild(candle);
+            candleCount++;
+            document.getElementById('candleCount').textContent = candleCount;
+        }
+
+        function openMessageModal() {
+            document.getElementById('messageModal').style.display = 'flex';
+        }
+
+        function closeMessageModal() {
+            document.getElementById('messageModal').style.display = 'none';
+            document.getElementById('messageInput').value = '';
+        }
+
+        function submitMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (message) {
+                const messageBox = document.getElementById('messageBox');
+                const messageItem = document.createElement('div');
+                messageItem.className = 'message-item';
+                
+                const now = new Date();
+                const timeString = now.getFullYear() + '-' + 
+                    String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(now.getDate()).padStart(2, '0') + ' ' + 
+                    String(now.getHours()).padStart(2, '0') + ':' + 
+                    String(now.getMinutes()).padStart(2, '0');
+                
+                messageItem.innerHTML = `
+                    <div class="message-text">${message}</div>
+                    <div class="message-time">${timeString}</div>
+                `;
+                messageBox.insertBefore(messageItem, messageBox.firstChild);
+                
+                closeMessageModal();
+            }
+        }
+
+        function createSoul() {
+            const soul = document.createElement('div');
+            soul.className = 'soul';
+            soul.textContent = '👻';
+            soul.style.left = Math.random() * 100 + '%';
+            soul.style.animationDuration = (Math.random() * 5 + 8) + 's';
+            document.body.appendChild(soul);
+            
+            setTimeout(() => {
+                soul.remove();
+            }, 15000);
+        }
+
+        createStars();
+        setInterval(createSoul, 5000);
+
+        document.getElementById('messageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeMessageModal();
+            }
+        });
+    </script>
+</body>
+</html>
